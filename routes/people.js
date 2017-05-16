@@ -66,13 +66,51 @@ router.get('/new/', function(req, res) {
 //      - Em caso de sucesso do INSERT, colocar uma mensagem feliz
 //      - Em caso de erro do INSERT, colocar mensagem vermelhinha
 
+router.post('/', function(req, res){
+  
+  let person = req.body;
+  db.query('INSERT INTO person SET ?', person, function(err, result) {
+    
+    if (err) {
+      req.flash('error', 'Erro ao cadastrar uma nova pessoa. Descrição: ' + err);
+    } else {
+      
+      req.flash('success', 'Uma nova pessoa foi adicionada: ' + person.name);  
+      res.redirect('/people');
+    }
+    
+  });
+
+});
+
+
 
 /* DELETE uma pessoa */
 // Exercício 2: IMPLEMENTAR AQUI
 // Dentro da callback de tratamento da rota:
 //   1. Fazer a query de DELETE no banco
 //   2. Redirecionar para a rota de listagem de pessoas
-//      - Em caso de sucesso do INSERT, colocar uma mensagem feliz
-//      - Em caso de erro do INSERT, colocar mensagem vermelhinha
+//      - Em caso de sucesso do DELETE, colocar uma mensagem feliz
+//      - Em caso de erro do DELETE, colocar mensagem vermelhinha
+
+router.delete('/:id', function(req, res) {
+  
+  let params = req.params;
+  let query = 'DELETE FROM person WHERE id = ' + params.id;
+
+  db.query(query, function(err, result) {
+
+    if (err) {
+      req.flash('error', 'Erro ao deletar uma pessoa. Descrição: ' + err);
+    } else {
+      
+      req.flash('success', 'A pessoa de Id: ' + params.id + ' foi deletada!');  
+      res.redirect('/people');
+    }
+
+  });
+  
+});
+
 
 module.exports = router;

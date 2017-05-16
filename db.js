@@ -1,10 +1,11 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-  host: 'localhost',
-  database: 'zombies',
-  user: 'root',
-  password: 'oivalf',
-  multipleStatements: true
+	host     : 'localhost',
+  	user     : 'root',
+  	password : 'root',
+  	database : 'zombies',
+  	port: 8889,
+  	multipleStatements: true
 });
 
 connection.connect();
